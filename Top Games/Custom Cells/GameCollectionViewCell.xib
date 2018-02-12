@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="GameCollectionViewCell" customModule="Top_Games" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="136" height="263"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="136" height="263"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bne-Ak-LFd">
+                        <rect key="frame" x="0.0" y="0.0" width="136" height="263"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="4P4-qS-Ilr">
+                                <rect key="frame" x="0.0" y="0.0" width="136" height="242.5"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="social-twitch-outline" translatesAutoresizingMaskIntoConstraints="NO" id="E1O-gP-MvC" customClass="RemoteImageView" customModule="Top_Games" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="136" height="190"/>
+                                        <color key="backgroundColor" red="0.46666666670000001" green="0.41960784309999999" blue="0.54117647059999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="190" id="24D-Sd-h5o"/>
+                                            <constraint firstAttribute="width" constant="136" id="nM0-dM-Q5w"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="2"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="jU9-Fb-RQ7">
+                                        <rect key="frame" x="0.0" y="198" width="136" height="44.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1. Game Title" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="136" translatesAutoresizingMaskIntoConstraints="NO" id="yfX-CY-gcH">
+                                                <rect key="frame" x="17.5" y="0.0" width="101" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                                <color key="textColor" red="0.7803921568627451" green="0.70588235294117641" blue="0.8784313725490196" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.000 viewers" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jPg-sU-eRc">
+                                                <rect key="frame" x="26.5" y="28.5" width="83" height="16"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <color key="textColor" red="0.7803921568627451" green="0.70588235294117641" blue="0.8784313725490196" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cell-drop-shadow" translatesAutoresizingMaskIntoConstraints="NO" id="JxZ-cg-5AX">
+                                <rect key="frame" x="0.0" y="0.0" width="136" height="60"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="0dH-XV-MfX"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vV7-gK-15N">
+                                <rect key="frame" x="96" y="0.0" width="40" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="SzU-49-ipL"/>
+                                    <constraint firstAttribute="height" constant="38" id="gTs-zu-DVZ"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="heart-outline"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="vV7-gK-15N" secondAttribute="trailing" id="1Lf-QR-B04"/>
+                            <constraint firstItem="JxZ-cg-5AX" firstAttribute="leading" secondItem="bne-Ak-LFd" secondAttribute="leading" id="2MK-Vq-Bpd"/>
+                            <constraint firstItem="4P4-qS-Ilr" firstAttribute="top" secondItem="bne-Ak-LFd" secondAttribute="top" id="Co4-zK-XBu"/>
+                            <constraint firstItem="vV7-gK-15N" firstAttribute="top" secondItem="bne-Ak-LFd" secondAttribute="top" id="Wo2-VA-cWg"/>
+                            <constraint firstItem="4P4-qS-Ilr" firstAttribute="leading" secondItem="bne-Ak-LFd" secondAttribute="leading" id="boU-2g-1ci"/>
+                            <constraint firstAttribute="trailing" secondItem="4P4-qS-Ilr" secondAttribute="trailing" id="nOs-y2-2Qy"/>
+                            <constraint firstItem="JxZ-cg-5AX" firstAttribute="top" secondItem="bne-Ak-LFd" secondAttribute="top" id="wv2-Tb-FDx"/>
+                            <constraint firstAttribute="trailing" secondItem="JxZ-cg-5AX" secondAttribute="trailing" id="y7q-Zp-Zhg"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="bne-Ak-LFd" secondAttribute="bottom" id="5Us-A6-2cD"/>
+                <constraint firstItem="bne-Ak-LFd" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Iac-3z-Egf"/>
+                <constraint firstItem="bne-Ak-LFd" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="eRF-KX-8PU"/>
+                <constraint firstAttribute="trailing" secondItem="bne-Ak-LFd" secondAttribute="trailing" id="l0Y-Ek-muy"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="239" height="371"/>
+            <connections>
+                <outlet property="boxArtworkImageView" destination="E1O-gP-MvC" id="f7J-v4-A59"/>
+                <outlet property="favoriteButton" destination="vV7-gK-15N" id="jxT-U3-rH6"/>
+                <outlet property="gameTitleLabel" destination="yfX-CY-gcH" id="x1x-SQ-aU2"/>
+                <outlet property="numberOfViewersLabel" destination="jPg-sU-eRc" id="Kjq-cu-zd3"/>
+            </connections>
+            <point key="canvasLocation" x="129" y="214.5"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="cell-drop-shadow" width="136" height="60"/>
+        <image name="heart-outline" width="24" height="22"/>
+        <image name="social-twitch-outline" width="50" height="54"/>
+    </resources>
+</document>
