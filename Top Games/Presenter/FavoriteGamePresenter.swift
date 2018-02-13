@@ -39,7 +39,11 @@ class FavoriteGamePresenter: FavoriteGamePresenterDelegate {
     
     weak var delegate: FavoriteGameViewDelegate?
     
-    private var games: [Game] = []
+    private var games: [Game] = [] {
+        didSet {
+            self.delegate?.setEmpty(games.isEmpty)
+        }
+    }
     private var favoriteGamesDataStore: FavoriteGamesDataStore
     private var isLoading: Bool = false {
         didSet {

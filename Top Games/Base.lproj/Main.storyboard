@@ -148,7 +148,7 @@
                                                 <action selector="dismissButtonTapped" destination="Wzf-f8-rXK" id="JBO-wf-Xua"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Item" image="heart-outline" id="4VE-6g-CPB">
+                                        <barButtonItem key="rightBarButtonItem" image="heart-outline" id="4VE-6g-CPB">
                                             <connections>
                                                 <action selector="changeFavoriteStateForGameButtonTapped:" destination="Wzf-f8-rXK" id="DEh-Cd-tcx"/>
                                             </connections>

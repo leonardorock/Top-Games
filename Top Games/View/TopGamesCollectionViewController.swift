@@ -72,6 +72,27 @@ class TopGamesCollectionViewController: UICollectionViewController, UICollection
         collectionView?.insertItems(at: range.map({ IndexPath(row: $0, section: 0) }))
     }
     
+    func setEmpty(_ empty: Bool, reason: EmptyReason) {
+        if empty {
+            let emptyStateView = EmptyStateView.loadFromNib()
+            switch reason {
+            case .searchResult(let query):
+                emptyStateView.imageView?.image = #imageLiteral(resourceName: "search-icon")
+                emptyStateView.titleLabel?.text = NSLocalizedString("No games found", comment: "No search results empty state title")
+                emptyStateView.messageLabel?.text = String(format: NSLocalizedString("Sorry, we didn't find any games named \"%@\"", comment: "No search results empty state message"), query ?? "")
+                break
+            case .noResults:
+                emptyStateView.imageView?.image = #imageLiteral(resourceName: "game-controller-outline-big")
+                emptyStateView.titleLabel?.text = NSLocalizedString("No games found", comment: "No results empty state title")
+                emptyStateView.messageLabel?.text = NSLocalizedString("Sorry, we didn't find any games", comment: "No results empty state message")
+                break
+            }
+            collectionView?.backgroundView = emptyStateView
+        } else {
+            collectionView?.backgroundView = nil
+        }
+    }
+    
     func setLoading(_ loading: Bool) {
         if loading {
             let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)

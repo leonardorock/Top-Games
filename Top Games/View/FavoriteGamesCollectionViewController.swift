@@ -59,6 +59,16 @@ class FavoriteGamesCollectionViewController: UICollectionViewController, GameCol
     }
     
     func setEmpty(_ empty: Bool) {
+        if empty {
+            let emptyStateView = EmptyStateView.loadFromNib()
+            emptyStateView.imageView?.image = #imageLiteral(resourceName: "heart-outline-big")
+            emptyStateView.titleLabel?.text = NSLocalizedString("No favorites", comment: "No favorites empty state title")
+            emptyStateView.messageLabel?.text = NSLocalizedString("You haven’t added any game to your favorites", comment: "No favorites empty state message")
+            collectionView?.backgroundView = emptyStateView
+            
+        } else {
+            collectionView?.backgroundView = nil
+        }
         
     }
     
