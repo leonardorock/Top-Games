@@ -16,6 +16,7 @@ protocol TopGamesViewDelegate: class {
     func reloadItems()
     func reloadItem(at index: Int)
     func showGameDetailFor(game: GameDataView)
+    func performAddedToFavoritesAnimationForGame(at index: Int)
     
 }
 
@@ -129,6 +130,7 @@ class TopGamesPresenter: TopGamesPresenterDelegate {
                 self?.delegate?.present(error: error)
             }, completion: { [weak self] in
                 self?.delegate?.reloadItem(at: index)
+                self?.delegate?.performAddedToFavoritesAnimationForGame(at: index)
             })
         }
     }

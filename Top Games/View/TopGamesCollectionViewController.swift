@@ -102,6 +102,40 @@ class TopGamesCollectionViewController: UICollectionViewController, UICollection
     func showGameDetailFor(game: GameDataView) {
         performSegue(withIdentifier: "showGameDetail", sender: game)
     }
+    
+    func performAddedToFavoritesAnimationForGame(at index: Int) {
+        let indexPath = IndexPath(row: index, section: 0)
+        
+        let cell = collectionView?.cellForItem(at: indexPath)
+        
+        cell?.layer.removeAnimation(forKey: "addToFavorite")
+        
+        let positionAnimation = CABasicAnimation(keyPath: "position")
+        positionAnimation.fromValue = cell?.center
+        positionAnimation.toValue = CGPoint(x: view.frame.width * 0.75, y: collectionView!.contentOffset.y + view.frame.height)
+        positionAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+        positionAnimation.isRemovedOnCompletion = true
+        positionAnimation.duration = 0.3
+        
+        let scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
+        scaleAnimation.fromValue = 1.0
+        scaleAnimation.toValue = 0.1
+        scaleAnimation.isRemovedOnCompletion = true
+        scaleAnimation.duration = 0.3
+        
+        let fadeInAnimation = CABasicAnimation(keyPath: "opacity")
+        fadeInAnimation.fromValue = 0.0
+        fadeInAnimation.toValue = 1.0
+        fadeInAnimation.duration = 0.3
+        fadeInAnimation.beginTime = 0.3
+        fadeInAnimation.isRemovedOnCompletion = true
+        
+        let animations = CAAnimationGroup()
+        animations.animations = [positionAnimation, scaleAnimation, fadeInAnimation]
+        animations.duration = 0.6
+        
+        cell?.layer.add(animations, forKey: "addToFavorite")
+    }
 
     // MARK: UICollectionViewDataSource
 
