@@ -42,12 +42,14 @@ class GameDetailPresenter: GameDetailPresenterDelegate {
     func changeFavoriteStateForGameButtonTapped() {
         if game.favorite {
             favoriteDataStore.delete(game: game, success: { [weak self] in
+                self?.game.favorite = false
                 self?.delegate?.updateFavoriteButtonState(to: false)
             }, failure: { [weak self] error in
                 self?.delegate?.present(error: error)
             }, completion: {})
         } else {
             favoriteDataStore.save(game: game, success: { [weak self] in
+                self?.game.favorite = true
                 self?.delegate?.updateFavoriteButtonState(to: true)
             }, failure: { [weak self] error in
                 self?.delegate?.present(error: error)

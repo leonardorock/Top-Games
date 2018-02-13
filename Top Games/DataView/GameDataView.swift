@@ -26,11 +26,6 @@ struct GameDataView {
         return URITemplate(template: boxURI)
     }
     
-    var logoURITemplate: URITemplate? {
-        guard let logoURI = model.logoURI else { return nil }
-        return URITemplate(template: logoURI)
-    }
-    
     var favorite: Bool {
         return model.favorite
     }

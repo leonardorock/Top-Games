@@ -8,9 +8,11 @@
 
 import UIKit
 
-class FavoriteGamesCollectionViewController: UICollectionViewController, GameCollectionViewCellDelegate, FavoriteGameViewDelegate {
+class FavoriteGamesCollectionViewController: UICollectionViewController, GameCollectionViewCellDelegate, UIViewControllerTransitioningDelegate, ContextualImageTransitionDelegate, FavoriteGameViewDelegate {
     
     private var presenter: FavoriteGamePresenterDelegate!
+    private var animationController = ContextualImageTransitionAnimationController()
+    private var indexPathForSelectedItem: IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,7 +74,11 @@ class FavoriteGamesCollectionViewController: UICollectionViewController, GameCol
     }
     
     func removeItem(at index: Int) {
-        collectionView?.deleteItems(at: [IndexPath(row: index, section: 0)])
+        let indexPath = IndexPath(row: index, section: 0)
+        if indexPath == indexPathForSelectedItem {
+            indexPathForSelectedItem = nil
+        }
+        collectionView?.deleteItems(at: [indexPath])
     }
     
     func insertItem(at index: Int) {
@@ -99,6 +105,7 @@ class FavoriteGamesCollectionViewController: UICollectionViewController, GameCol
     // MARK: - UICollectionViewDelegate
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        indexPathForSelectedItem = indexPath
         presenter.showGameDetailForGame(at: indexPath.row)
     }
 
@@ -115,7 +122,51 @@ class FavoriteGamesCollectionViewController: UICollectionViewController, GameCol
         if segue.identifier == "showGameDetail", let game = sender as? GameDataView {
             let destination = segue.destination as? GameDetailViewController
             destination?.game = game
+            destination?.transitioningDelegate = self
         }
+    }
+    
+    // MARK: - UIViewControllerTransitioningDelegate
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        let gameDetailViewController = presented as? ContextualImageTransitionDelegate
+        animationController.setupTransition(from: self, to: gameDetailViewController)
+        return animationController
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        let gameDetailViewController = dismissed as? ContextualImageTransitionDelegate
+        animationController.setupTransition(from: gameDetailViewController, to: self)
+        return animationController
+    }
+    
+    // MARK: - Contextual Image Transition Protocol
+    
+    var selectedImageView: UIImageView? {
+        guard let indexPath = indexPathForSelectedItem, let collectionView = collectionView, let cell = collectionView.cellForItem(at: indexPath) as? GameCollectionViewCell else {
+            return nil
+        }
+        if !collectionView.indexPathsForVisibleItems.contains(indexPath) {
+            collectionView.scrollToItem(at: indexPath, at: .top, animated: false)
+        }
+        return cell.boxArtworkImageView
+    }
+    
+    var imageViewFrameForContextualImageTransition: CGRect? {
+        guard let frame = selectedImageView?.frame else { return CGRect(origin: view.center, size: .zero) }
+        return selectedImageView?.convert(frame, to: view)
+    }
+    
+    var imageForContextualImageTransition: UIImage? {
+        return selectedImageView?.image
+    }
+    
+    func transitionSetup() {
+        selectedImageView?.alpha = 0.0
+    }
+    
+    func transitionCleanUp() {
+        selectedImageView?.alpha = 1.0
     }
     
 }

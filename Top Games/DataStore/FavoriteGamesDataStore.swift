@@ -45,7 +45,6 @@ class FavoriteGamesDataStore {
         favoriteGame.name = game.name
         favoriteGame.viewers = Int32(game.viewers ?? 0)
         favoriteGame.boxURI = game.boxURI
-        favoriteGame.logoURI = game.logoURI
         do {
             try context.save()
             NotificationCenter.default.post(name: .favoriteGameAdded, object: game)

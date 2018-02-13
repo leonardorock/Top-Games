@@ -19,13 +19,11 @@ struct Result: Codable {
         
         let id: Int?
         let name: String?
-        let logo: ImageResource?
         let box: ImageResource?
         
         enum CodingKeys: String, CodingKey {
             case id = "_id",
             name,
-            logo,
             box
         }
         

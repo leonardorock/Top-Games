@@ -8,12 +8,12 @@
 
 import UIKit
 
-class GameDetailViewController: UIViewController, GameDetailViewDelegate {
+class GameDetailViewController: UIViewController, UIBarPositioningDelegate, ContextualImageTransitionDelegate, GameDetailViewDelegate {
     
-    @IBOutlet weak var dismissButton: UIButton!
-    @IBOutlet weak var favoriteButton: UIButton!
+    
+    @IBOutlet weak var dismissButton: UIBarButtonItem!
+    @IBOutlet weak var favoriteButton: UIBarButtonItem!
     @IBOutlet weak var boxArtworkImageView: RemoteImageView!
-    @IBOutlet weak var logoArtowrkImageView: RemoteImageView!
     @IBOutlet weak var gameNameLabel: UILabel!
     @IBOutlet weak var viewersLabel: UILabel!
 
@@ -33,11 +33,16 @@ class GameDetailViewController: UIViewController, GameDetailViewDelegate {
         return .lightContent
     }
     
+    // MARK: - Bar positioning delegate
+    
+    func position(for bar: UIBarPositioning) -> UIBarPosition {
+        return .topAttached
+    }
+    
     // MARK: - Game detail view delegate
     
     func setup(with game: GameDataView) {
         boxArtworkImageView.setImage(uriTemplate: game.boxURITemplate, placeholderImage: #imageLiteral(resourceName: "social-twitch-outline"))
-        logoArtowrkImageView.setImage(uriTemplate: game.logoURITemplate, placeholderImage: #imageLiteral(resourceName: "social-twitch-outline"))
         gameNameLabel.text = game.name
         viewersLabel.text = game.viewers
         updateFavoriteButtonState(to: game.favorite)
@@ -45,7 +50,7 @@ class GameDetailViewController: UIViewController, GameDetailViewDelegate {
     
     func updateFavoriteButtonState(to favorite: Bool) {
         let image = favorite ? #imageLiteral(resourceName: "heart-fill") : #imageLiteral(resourceName: "heart-outline")
-        favoriteButton.setImage(image, for: .normal)
+        favoriteButton.image = image
     }
     
     func present(error: Error) {
@@ -64,5 +69,24 @@ class GameDetailViewController: UIViewController, GameDetailViewDelegate {
     @IBAction func changeFavoriteStateForGameButtonTapped(_ sender: Any) {
         presenter.changeFavoriteStateForGameButtonTapped()
     }
+    
+    // MARK: - Contextual Image Transition Protocol
 
+    var imageViewFrameForContextualImageTransition: CGRect? {
+        let frame = boxArtworkImageView.convert(boxArtworkImageView.frame, to: view)
+        return frame
+    }
+    
+    var imageForContextualImageTransition: UIImage? {
+        return boxArtworkImageView.image
+    }
+    
+    func transitionSetup() {
+        boxArtworkImageView?.alpha = 0.0
+    }
+    
+    func transitionCleanUp() {
+        boxArtworkImageView?.alpha = 1.0
+    }
+    
 }

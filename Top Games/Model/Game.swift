@@ -15,7 +15,6 @@ struct Game {
     let name: String?
     let viewers: Int?
     let boxURI: String?
-    let logoURI: String?
     var favorite: Bool
     
 }
@@ -27,7 +26,6 @@ extension Game {
         name = result.game?.name
         viewers = result.viewers
         boxURI = result.game?.box?.template
-        logoURI = result.game?.logo?.template
         favorite = false
     }
     
@@ -36,7 +34,6 @@ extension Game {
         name = favoriteGame.name
         viewers = Int(favoriteGame.viewers)
         boxURI = favoriteGame.boxURI
-        logoURI = favoriteGame.logoURI
         favorite = true
     }
     

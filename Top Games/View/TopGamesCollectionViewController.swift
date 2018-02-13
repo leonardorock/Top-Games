@@ -8,12 +8,14 @@
 
 import UIKit
 
-class TopGamesCollectionViewController: UICollectionViewController, UICollectionViewDataSourcePrefetching, UISearchResultsUpdating, UISearchBarDelegate, GameCollectionViewCellDelegate, TopGamesViewDelegate {
+class TopGamesCollectionViewController: UICollectionViewController, UICollectionViewDataSourcePrefetching, UISearchResultsUpdating, UISearchBarDelegate, UIViewControllerTransitioningDelegate, ContextualImageTransitionDelegate, GameCollectionViewCellDelegate, TopGamesViewDelegate {
 
     private var spaceBetweenCells: CGFloat = 0.0
     private var shouldInvalidateLayout = false
     
     private var presenter: TopGamesPresenterDelegate!
+    private var animationController = ContextualImageTransitionAnimationController()
+    private var indexPathForSelectedItem: IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,6 +102,40 @@ class TopGamesCollectionViewController: UICollectionViewController, UICollection
     func showGameDetailFor(game: GameDataView) {
         performSegue(withIdentifier: "showGameDetail", sender: game)
     }
+    
+    func performAddedToFavoritesAnimationForGame(at index: Int) {
+        let indexPath = IndexPath(row: index, section: 0)
+        
+        let cell = collectionView?.cellForItem(at: indexPath)
+        
+        cell?.layer.removeAnimation(forKey: "addToFavorite")
+        
+        let positionAnimation = CABasicAnimation(keyPath: "position")
+        positionAnimation.fromValue = cell?.center
+        positionAnimation.toValue = CGPoint(x: view.frame.width * 0.75, y: collectionView!.contentOffset.y + view.frame.height)
+        positionAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+        positionAnimation.isRemovedOnCompletion = true
+        positionAnimation.duration = 0.3
+        
+        let scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
+        scaleAnimation.fromValue = 1.0
+        scaleAnimation.toValue = 0.1
+        scaleAnimation.isRemovedOnCompletion = true
+        scaleAnimation.duration = 0.3
+        
+        let fadeInAnimation = CABasicAnimation(keyPath: "opacity")
+        fadeInAnimation.fromValue = 0.0
+        fadeInAnimation.toValue = 1.0
+        fadeInAnimation.duration = 0.3
+        fadeInAnimation.beginTime = 0.3
+        fadeInAnimation.isRemovedOnCompletion = true
+        
+        let animations = CAAnimationGroup()
+        animations.animations = [positionAnimation, scaleAnimation, fadeInAnimation]
+        animations.duration = 0.6
+        
+        cell?.layer.add(animations, forKey: "addToFavorite")
+    }
 
     // MARK: UICollectionViewDataSource
 
@@ -129,6 +165,7 @@ class TopGamesCollectionViewController: UICollectionViewController, UICollection
     // MARK: - UICollectionViewDelegate
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        indexPathForSelectedItem = indexPath
         presenter.showGameDetailForGame(at: indexPath.row)
     }
     
@@ -158,6 +195,8 @@ class TopGamesCollectionViewController: UICollectionViewController, UICollection
         setupRefreshControl()
     }
     
+    // MARK: - Collection View Cell Delegate
+    
     func favoriteButtonTapped(in cell: GameCollectionViewCell) {
         guard let indexPath = collectionView?.indexPath(for: cell) else { return }
         presenter.changeFavoriteStateForGame(at: indexPath.row)
@@ -169,7 +208,51 @@ class TopGamesCollectionViewController: UICollectionViewController, UICollection
         if segue.identifier == "showGameDetail", let game = sender as? GameDataView {
             let destination = segue.destination as? GameDetailViewController
             destination?.game = game
+            destination?.transitioningDelegate = self
         }
+    }
+    
+    // MARK: - UIViewControllerTransitioningDelegate
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        let gameDetailViewController = presented as? ContextualImageTransitionDelegate
+        animationController.setupTransition(from: self, to: gameDetailViewController)
+        return animationController
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        let gameDetailViewController = dismissed as? ContextualImageTransitionDelegate
+        animationController.setupTransition(from: gameDetailViewController, to: self)
+        return animationController
+    }
+    
+    // MARK: - Contextual Image Transition Protocol
+    
+    var selectedImageView: UIImageView? {
+        guard let indexPath = indexPathForSelectedItem, let collectionView = collectionView, let cell = collectionView.cellForItem(at: indexPath) as? GameCollectionViewCell else {
+            return nil
+        }
+        if !collectionView.indexPathsForVisibleItems.contains(indexPath) {
+            collectionView.scrollToItem(at: indexPath, at: .top, animated: false)
+        }
+        return cell.boxArtworkImageView
+    }
+    
+    var imageViewFrameForContextualImageTransition: CGRect? {
+        guard let frame = selectedImageView?.frame else { return CGRect(origin: view.center, size: .zero) }
+        return selectedImageView?.convert(frame, to: view)
+    }
+    
+    var imageForContextualImageTransition: UIImage? {
+        return selectedImageView?.image
+    }
+    
+    func transitionSetup() {
+        selectedImageView?.alpha = 0.0
+    }
+    
+    func transitionCleanUp() {
+        selectedImageView?.alpha = 1.0
     }
     
 }
