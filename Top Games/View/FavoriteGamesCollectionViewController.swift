@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FavoriteGamesCollectionViewController: UICollectionViewController, GameCollectionViewCellDelegate, UIViewControllerTransitioningDelegate, ContextualImageTransitionProtocol, FavoriteGameViewDelegate {
+class FavoriteGamesCollectionViewController: UICollectionViewController, GameCollectionViewCellDelegate, UIViewControllerTransitioningDelegate, ContextualImageTransitionDelegate, FavoriteGameViewDelegate {
     
     private var presenter: FavoriteGamePresenterDelegate!
     private var animationController = ContextualImageTransitionAnimationController()
@@ -126,17 +126,17 @@ class FavoriteGamesCollectionViewController: UICollectionViewController, GameCol
         }
     }
     
-    // MARK: - View controller transition delegate
+    // MARK: - UIViewControllerTransitioningDelegate
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        let gameDetailViewController = presented as? GameDetailViewController
-        animationController.setupTransition(image: selectedImageView?.image, from: self, to: gameDetailViewController)
+        let gameDetailViewController = presented as? ContextualImageTransitionDelegate
+        animationController.setupTransition(from: self, to: gameDetailViewController)
         return animationController
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        let gameDetailViewController = dismissed as? GameDetailViewController
-        animationController.setupTransition(image: selectedImageView?.image, from: gameDetailViewController, to: self)
+        let gameDetailViewController = dismissed as? ContextualImageTransitionDelegate
+        animationController.setupTransition(from: gameDetailViewController, to: self)
         return animationController
     }
     
@@ -152,9 +152,13 @@ class FavoriteGamesCollectionViewController: UICollectionViewController, GameCol
         return cell.boxArtworkImageView
     }
     
-    var imageViewFrame: CGRect? {
-        guard let frame = selectedImageView?.frame else { return nil }
+    var imageViewFrameForContextualImageTransition: CGRect? {
+        guard let frame = selectedImageView?.frame else { return CGRect(origin: view.center, size: .zero) }
         return selectedImageView?.convert(frame, to: view)
+    }
+    
+    var imageForContextualImageTransition: UIImage? {
+        return selectedImageView?.image
     }
     
     func transitionSetup() {

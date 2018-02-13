@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TopGamesCollectionViewController: UICollectionViewController, UICollectionViewDataSourcePrefetching, UISearchResultsUpdating, UISearchBarDelegate, UIViewControllerTransitioningDelegate, ContextualImageTransitionProtocol, GameCollectionViewCellDelegate, TopGamesViewDelegate {
+class TopGamesCollectionViewController: UICollectionViewController, UICollectionViewDataSourcePrefetching, UISearchResultsUpdating, UISearchBarDelegate, UIViewControllerTransitioningDelegate, ContextualImageTransitionDelegate, GameCollectionViewCellDelegate, TopGamesViewDelegate {
 
     private var spaceBetweenCells: CGFloat = 0.0
     private var shouldInvalidateLayout = false
@@ -161,6 +161,8 @@ class TopGamesCollectionViewController: UICollectionViewController, UICollection
         setupRefreshControl()
     }
     
+    // MARK: - Collection View Cell Delegate
+    
     func favoriteButtonTapped(in cell: GameCollectionViewCell) {
         guard let indexPath = collectionView?.indexPath(for: cell) else { return }
         presenter.changeFavoriteStateForGame(at: indexPath.row)
@@ -176,17 +178,17 @@ class TopGamesCollectionViewController: UICollectionViewController, UICollection
         }
     }
     
-    // MARK: - View controller transition delegate
+    // MARK: - UIViewControllerTransitioningDelegate
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        let gameDetailViewController = presented as? GameDetailViewController
-        animationController.setupTransition(image: selectedImageView?.image, from: self, to: gameDetailViewController)
+        let gameDetailViewController = presented as? ContextualImageTransitionDelegate
+        animationController.setupTransition(from: self, to: gameDetailViewController)
         return animationController
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        let gameDetailViewController = dismissed as? GameDetailViewController
-        animationController.setupTransition(image: selectedImageView?.image, from: gameDetailViewController, to: self)
+        let gameDetailViewController = dismissed as? ContextualImageTransitionDelegate
+        animationController.setupTransition(from: gameDetailViewController, to: self)
         return animationController
     }
     
@@ -202,9 +204,13 @@ class TopGamesCollectionViewController: UICollectionViewController, UICollection
         return cell.boxArtworkImageView
     }
     
-    var imageViewFrame: CGRect? {
+    var imageViewFrameForContextualImageTransition: CGRect? {
         guard let frame = selectedImageView?.frame else { return CGRect(origin: view.center, size: .zero) }
         return selectedImageView?.convert(frame, to: view)
+    }
+    
+    var imageForContextualImageTransition: UIImage? {
+        return selectedImageView?.image
     }
     
     func transitionSetup() {

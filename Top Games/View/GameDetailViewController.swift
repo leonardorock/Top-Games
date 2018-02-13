@@ -8,7 +8,8 @@
 
 import UIKit
 
-class GameDetailViewController: UIViewController, UIBarPositioningDelegate, ContextualImageTransitionProtocol, GameDetailViewDelegate {
+class GameDetailViewController: UIViewController, UIBarPositioningDelegate, ContextualImageTransitionDelegate, GameDetailViewDelegate {
+    
     
     @IBOutlet weak var dismissButton: UIBarButtonItem!
     @IBOutlet weak var favoriteButton: UIBarButtonItem!
@@ -71,8 +72,13 @@ class GameDetailViewController: UIViewController, UIBarPositioningDelegate, Cont
     
     // MARK: - Contextual Image Transition Protocol
 
-    var imageViewFrame: CGRect? {
-        return boxArtworkImageView.convert(boxArtworkImageView.frame, to: view)
+    var imageViewFrameForContextualImageTransition: CGRect? {
+        let frame = boxArtworkImageView.convert(boxArtworkImageView.frame, to: view)
+        return frame
+    }
+    
+    var imageForContextualImageTransition: UIImage? {
+        return boxArtworkImageView.image
     }
     
     func transitionSetup() {

@@ -8,9 +8,10 @@
 
 import UIKit
 
-protocol ContextualImageTransitionProtocol {
+protocol ContextualImageTransitionDelegate {
     
-    var imageViewFrame: CGRect? { get }
+    var imageViewFrameForContextualImageTransition: CGRect? { get }
+    var imageForContextualImageTransition: UIImage? { get }
     
     func transitionSetup()
     func transitionCleanUp()
@@ -20,12 +21,10 @@ class ContextualImageTransitionAnimationController: NSObject, UIViewControllerAn
     
     let duration: TimeInterval = 0.5
     
-    private var image: UIImage?
-    private var fromDelegate: ContextualImageTransitionProtocol?
-    private var toDelegate: ContextualImageTransitionProtocol?
+    private var fromDelegate: ContextualImageTransitionDelegate?
+    private var toDelegate: ContextualImageTransitionDelegate?
     
-    func setupTransition(image: UIImage?, from: ContextualImageTransitionProtocol?, to: ContextualImageTransitionProtocol?) {
-        self.image = image
+    func setupTransition(from: ContextualImageTransitionDelegate?, to: ContextualImageTransitionDelegate?) {
         self.fromDelegate = from
         self.toDelegate = to
     }
@@ -42,11 +41,10 @@ class ContextualImageTransitionAnimationController: NSObject, UIViewControllerAn
         let container = transitionContext.containerView
         
         toViewController.view.frame = fromViewController.view.frame
-        
-        let imageView = UIImageView(image: image)
+        let imageView = UIImageView(image: fromDelegate?.imageForContextualImageTransition)
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
-        imageView.frame = fromDelegate?.imageViewFrame ?? .zero
+        imageView.frame = fromDelegate?.imageViewFrameForContextualImageTransition ?? .zero
         container.addSubview(imageView)
         
         fromDelegate?.transitionSetup()
@@ -65,9 +63,9 @@ class ContextualImageTransitionAnimationController: NSObject, UIViewControllerAn
         }
         
         container.bringSubview(toFront: imageView)
-        let toFrame: CGRect = toDelegate?.imageViewFrame ?? .zero
+        let toFrame: CGRect = toDelegate?.imageViewFrameForContextualImageTransition ?? .zero
         
-        UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, usingSpringWithDamping: 0.85, initialSpringVelocity: 0.8, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 1.0, options: .curveEaseOut, animations: {
             toSnapshot?.alpha = 1.0
             imageView.frame = toFrame
         }) { [weak self] finished in
