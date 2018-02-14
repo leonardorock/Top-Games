@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TopGamesCollectionViewController: UICollectionViewController, UICollectionViewDataSourcePrefetching, UISearchResultsUpdating, UISearchBarDelegate, UIViewControllerTransitioningDelegate, ContextualImageTransitionDelegate, GameCollectionViewCellDelegate, TopGamesViewDelegate {
+class TopGamesCollectionViewController: UICollectionViewController, UICollectionViewDataSourcePrefetching, UISearchResultsUpdating, UISearchBarDelegate, UIViewControllerTransitioningDelegate, UICollectionViewDragDelegate, ContextualImageTransitionDelegate, GameCollectionViewCellDelegate, TopGamesViewDelegate {
 
     private var spaceBetweenCells: CGFloat = 0.0
     private var shouldInvalidateLayout = false
@@ -38,7 +38,9 @@ class TopGamesCollectionViewController: UICollectionViewController, UICollection
     }
     
     private func setupColletionView() {
+        collectionView?.dragDelegate = self
         collectionView?.prefetchDataSource = self
+        collectionView?.dragInteractionEnabled = true
         collectionView?.register(cellType: GameCollectionViewCell.self)
         collectionView?.collectionViewLayout = GamesCollectionViewFlowLayout()
         setupRefreshControl()
@@ -276,4 +278,27 @@ class TopGamesCollectionViewController: UICollectionViewController, UICollection
         selectedImageView?.alpha = 1.0
     }
     
+    // MARK: - Collection view drag delegate
+    
+    func collectionView(_ collectionView: UICollectionView, dragPreviewParametersForItemAt indexPath: IndexPath) -> UIDragPreviewParameters? {
+        let dragPreviewParameters = UIDragPreviewParameters()
+        dragPreviewParameters.backgroundColor = #colorLiteral(red: 0.4666666667, green: 0.4196078431, blue: 0.5411764706, alpha: 1)
+        return dragPreviewParameters
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        return [dragItem(at: indexPath)]
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, itemsForAddingTo session: UIDragSession, at indexPath: IndexPath, point: CGPoint) -> [UIDragItem] {
+        return [dragItem(at: indexPath)]
+    }
+    
+    private func dragItem(at indexPath: IndexPath) -> UIDragItem {
+        let game = presenter.game(at: indexPath.row)
+        let itemProvider = game.itemProvider
+        let dragItem = UIDragItem(itemProvider: itemProvider)
+        dragItem.localObject = game
+        return dragItem
+    }
 }

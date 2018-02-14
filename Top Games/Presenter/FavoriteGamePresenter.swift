@@ -16,6 +16,7 @@ protocol FavoriteGameViewDelegate: class {
     func reloadItems()
     func removeItem(at index: Int)
     func insertItem(at index: Int)
+    func insertItems(in range: CountableRange<Int>)
     func showGameDetailFor(game: GameDataView)
     
 }
@@ -31,6 +32,7 @@ protocol FavoriteGamePresenterDelegate {
     func fetchFavoriteGames()
     func game(at index: Int) -> GameDataView
     func changeFavoriteStateForGame(at index: Int)
+    func insert(games: [GameDataView], at index: Int)
     func showGameDetailForGame(at index: Int)
     
 }
@@ -93,6 +95,25 @@ class FavoriteGamePresenter: FavoriteGamePresenterDelegate {
     
     func showGameDetailForGame(at index: Int) {
         delegate?.showGameDetailFor(game: GameDataView(model: games[index]))
+    }
+    
+    func insert(games: [GameDataView], at index: Int) {
+        let currentFavoriteGames = self.games.flatMap { $0.id }
+        let favoriteGames = games.map { game -> Game in
+            var favoriteGame = game.model
+            favoriteGame.favorite = true
+            return favoriteGame
+        } .filter { !currentFavoriteGames.contains($0.id!) }
+        if favoriteGames.isEmpty { return }
+        favoriteGamesDataStore.save(games: favoriteGames, success: { [weak self] in
+            self?.games.insert(contentsOf: favoriteGames, at: index)
+            let range = index..<(index + favoriteGames.count)
+            self?.delegate?.insertItems(in: range)
+        }, failure: { [weak self] (error) in
+            self?.delegate?.present(error: error)
+        }) {
+            
+        }
     }
     
     private func registerForFavoriteGameUpdated() {

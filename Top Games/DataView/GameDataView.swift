@@ -7,6 +7,7 @@
 //
 
 import URITemplate
+import MobileCoreServices
 
 struct GameDataView {
     
@@ -28,6 +29,20 @@ struct GameDataView {
     
     var favorite: Bool {
         return model.favorite
+    }
+    
+    var itemProvider: NSItemProvider {
+        let itemProvider = NSItemProvider()
+        itemProvider.registerDataRepresentation(forTypeIdentifier: kUTTypePlainText as String, visibility: .all) { (completion) -> Progress? in
+            do {
+                let data = try JSONEncoder().encode(self.model)
+                completion(data, nil)
+            } catch {
+                completion(nil, error)
+            }
+            return nil
+        }
+        return itemProvider
     }
     
 }

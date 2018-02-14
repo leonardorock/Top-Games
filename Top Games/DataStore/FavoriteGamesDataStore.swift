@@ -70,4 +70,22 @@ class FavoriteGamesDataStore {
         completion()
     }
     
+    func save(games: [Game], success: () -> Void, failure: (Error) -> Void, completion: () -> Void) {
+        games.forEach { game in
+            let favoriteGame = FavoriteGame(context: context)
+            favoriteGame.id = Int32(game.id ?? 0)
+            favoriteGame.name = game.name
+            favoriteGame.viewers = Int32(game.viewers ?? 0)
+            favoriteGame.boxURI = game.boxURI
+        }
+        do {
+            try context.save()
+            NotificationCenter.default.post(name: .favoriteGamesAdded, object: games)
+            success()
+        } catch {
+            failure(error)
+        }
+        completion()
+    }
+    
 }

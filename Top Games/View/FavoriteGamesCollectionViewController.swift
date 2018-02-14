@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FavoriteGamesCollectionViewController: UICollectionViewController, GameCollectionViewCellDelegate, UIViewControllerTransitioningDelegate, ContextualImageTransitionDelegate, FavoriteGameViewDelegate {
+class FavoriteGamesCollectionViewController: UICollectionViewController, GameCollectionViewCellDelegate, UIViewControllerTransitioningDelegate, UICollectionViewDropDelegate, ContextualImageTransitionDelegate, FavoriteGameViewDelegate {
     
     private var presenter: FavoriteGamePresenterDelegate!
     private var animationController = ContextualImageTransitionAnimationController()
@@ -34,6 +34,8 @@ class FavoriteGamesCollectionViewController: UICollectionViewController, GameCol
     }
     
     private func setupCollectionView() {
+        collectionView?.dropDelegate = self
+        collectionView?.dragInteractionEnabled = true
         collectionView?.register(cellType: GameCollectionViewCell.self)
         collectionView?.collectionViewLayout = GamesCollectionViewFlowLayout()
     }
@@ -93,6 +95,11 @@ class FavoriteGamesCollectionViewController: UICollectionViewController, GameCol
     
     func insertItem(at index: Int) {
         collectionView?.insertItems(at: [IndexPath(row: index, section: 0)])
+    }
+    
+    func insertItems(in range: CountableRange<Int>) {
+        let indexPaths = range.map { IndexPath(row: $0, section: 0) }
+        collectionView?.insertItems(at: indexPaths)
     }
     
     func showGameDetailFor(game: GameDataView) {
@@ -177,6 +184,39 @@ class FavoriteGamesCollectionViewController: UICollectionViewController, GameCol
     
     func transitionCleanUp() {
         selectedImageView?.alpha = 1.0
+    }
+    
+    // MARK: - UICollectionViewDropDelegate
+    
+    func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
+        if session.localDragSession != nil {
+            return UICollectionViewDropProposal(operation: .copy, intent: .insertIntoDestinationIndexPath)
+        } else {
+            return UICollectionViewDropProposal(operation: .forbidden)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
+        
+        let destinationIndexPath: IndexPath
+        
+        if let indexPath = coordinator.destinationIndexPath {
+            destinationIndexPath = indexPath
+        } else {
+            let section = collectionView.numberOfSections - 1
+            let row = collectionView.numberOfItems(inSection: section)
+            destinationIndexPath = IndexPath(row: row, section: section)
+        }
+        
+        switch coordinator.proposal.operation {
+        case .copy:
+            let games = coordinator.items.flatMap { $0.dragItem.localObject as? GameDataView }
+            presenter.insert(games: games, at: destinationIndexPath.row)
+            break
+        default:
+            break
+        }
+        
     }
     
 }

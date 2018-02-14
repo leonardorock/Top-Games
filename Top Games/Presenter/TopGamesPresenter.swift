@@ -163,7 +163,7 @@ class TopGamesPresenter: TopGamesPresenterDelegate {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(favoriteGameAdded(notification:)), name: .favoriteGameAdded, object: nil)
         notificationCenter.addObserver(self, selector: #selector(favoriteGameRemoved(notification:)), name: .favoriteGameRemoved, object: nil)
-        
+        notificationCenter.addObserver(self, selector: #selector(favoriteGamesAdded(notification:)), name: .favoriteGamesAdded, object: nil)
     }
     
     @objc private func favoriteGameAdded(notification: Notification) {
@@ -174,6 +174,11 @@ class TopGamesPresenter: TopGamesPresenterDelegate {
     @objc private func favoriteGameRemoved(notification: Notification) {
         let game = notification.object as? Game
         delete(favoriteGameID: game?.id)
+    }
+    
+    @objc private func favoriteGamesAdded(notification: Notification) {
+        let games = notification.object as? [Game]
+        games?.forEach { add(favoriteGameID: $0.id) }
     }
     
     private func add(favoriteGameID: Int?) {

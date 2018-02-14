@@ -9,7 +9,7 @@
 import Foundation
 import URITemplate
 
-struct Game {
+struct Game: Codable {
     
     let id: Int?
     let name: String?

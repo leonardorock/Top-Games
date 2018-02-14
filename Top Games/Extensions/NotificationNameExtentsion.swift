@@ -13,4 +13,6 @@ extension Notification.Name {
     static let favoriteGameAdded = Notification.Name("FavoriteGameAdded")
     static let favoriteGameRemoved = Notification.Name("FavoriteGameRemoved")
     
+    static let favoriteGamesAdded = Notification.Name("FavoriteGamesAdded")
+    
 }
