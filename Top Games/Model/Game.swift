@@ -17,10 +17,6 @@ struct Game: Codable {
     let boxURI: String?
     var favorite: Bool
     
-}
-
-extension Game {
-    
     init(result: Result) {
         id = result.game?.id
         name = result.game?.name
@@ -28,13 +24,4 @@ extension Game {
         boxURI = result.game?.box?.template
         favorite = false
     }
-    
-    init(favoriteGame: FavoriteGame) {
-        id = Int(favoriteGame.id)
-        name = favoriteGame.name
-        viewers = Int(favoriteGame.viewers)
-        boxURI = favoriteGame.boxURI
-        favorite = true
-    }
-    
 }
