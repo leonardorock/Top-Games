@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TopGamesCollectionViewController: UICollectionViewController, UICollectionViewDataSourcePrefetching, UISearchResultsUpdating, UISearchBarDelegate, UIViewControllerTransitioningDelegate, UICollectionViewDragDelegate, ContextualImageTransitionDelegate, GameCollectionViewCellDelegate, TopGamesViewDelegate {
+class TopGamesCollectionViewController: UICollectionViewController, UISearchResultsUpdating, UISearchBarDelegate, UIViewControllerTransitioningDelegate, UICollectionViewDragDelegate, ContextualImageTransitionDelegate, GameCollectionViewCellDelegate, TopGamesViewDelegate {
 
     private var spaceBetweenCells: CGFloat = 0.0
     private var shouldInvalidateLayout = false
@@ -39,7 +39,6 @@ class TopGamesCollectionViewController: UICollectionViewController, UICollection
     
     private func setupColletionView() {
         collectionView?.dragDelegate = self
-        collectionView?.prefetchDataSource = self
         collectionView?.dragInteractionEnabled = true
         collectionView?.register(cellType: GameCollectionViewCell.self)
         collectionView?.collectionViewLayout = GamesCollectionViewFlowLayout()
@@ -177,14 +176,12 @@ class TopGamesCollectionViewController: UICollectionViewController, UICollection
         return cell
     }
     
-    // MARK: - UICollectionViewDataSourcePrefetching
-    
-    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        if indexPaths.contains(where: { $0.row >= presenter.numberOfItems - 1 }) {
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == presenter.numberOfItems - 1 {
             presenter.prefetchNextItems()
         }
     }
-
+    
     // MARK: - UICollectionViewDelegate
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
