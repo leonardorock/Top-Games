@@ -16,6 +16,7 @@ class TopGamesCollectionViewController: UICollectionViewController, UISearchResu
     private var presenter: TopGamesPresenterDelegate!
     private var animationController = ContextualImageTransitionAnimationController()
     private var indexPathForSelectedItem: IndexPath?
+    private var searchController: UISearchController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,16 +26,6 @@ class TopGamesCollectionViewController: UICollectionViewController, UISearchResu
         presenter.viewDidLoad()
         setupColletionView()
         setupSearchController()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        presenter.viewWillAppear()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        presenter.viewWillDisappear()
     }
     
     private func setupColletionView() {
@@ -52,7 +43,7 @@ class TopGamesCollectionViewController: UICollectionViewController, UISearchResu
     }
     
     private func setupSearchController() {
-        let searchController = UISearchController(searchResultsController: nil)
+        searchController = SearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.searchBar.tintColor = #colorLiteral(red: 0.7803921569, green: 0.7058823529, blue: 0.8784313725, alpha: 1)
         searchController.dimsBackgroundDuringPresentation = false
