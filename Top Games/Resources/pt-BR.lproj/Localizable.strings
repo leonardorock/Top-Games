@@ -1,0 +1,23 @@
+/* number of viewers label */
+"%d viewers" = "%d espectadores";
+
+/* Error title
+   Error title message */
+"Error" = "Erro";
+
+/* No favorites empty state title */
+"No favorites" = "Nenhum favorito";
+
+/* No results empty state title
+   No search results empty state title */
+"No games found" = "Nenhum jogo encontrado";
+
+/* No results empty state message */
+"Sorry, we didn't find any games" = "Desculpe, não encontramos nenhum jogo";
+
+/* No search results empty state message */
+"Sorry, we didn't find any games named \"%@\"" = "Desculpe, não encontramos nenhum jogo com o nome \"%@\"";
+
+/* No favorites empty state message */
+"You haven’t added any game to your favorites" = "Você não adicionou nenhum jogo aos seus favoritos";
+

@@ -49,6 +49,10 @@
 		A725AD85203504DD009C84AD /* FavoriteGameViewMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A725AD84203504DD009C84AD /* FavoriteGameViewMock.swift */; };
 		A725AD8720350A05009C84AD /* GameDetailPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A725AD8620350A05009C84AD /* GameDetailPresenterTests.swift */; };
 		A725AD8920350A31009C84AD /* GameDetailViewMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A725AD8820350A31009C84AD /* GameDetailViewMock.swift */; };
+		A725AD9120351950009C84AD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A725AD9320351950009C84AD /* Localizable.strings */; };
+		A725AD9620351952009C84AD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A725AD9820351952009C84AD /* InfoPlist.strings */; };
+		A725AD9B20351953009C84AD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A725AD9D20351953009C84AD /* InfoPlist.strings */; };
+		A725ADA020351954009C84AD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A725ADA220351954009C84AD /* Localizable.strings */; };
 		A7316694202BECC800C57D66 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7316693202BECC800C57D66 /* AppDelegate.swift */; };
 		A7316699202BECC800C57D66 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7316697202BECC800C57D66 /* Main.storyboard */; };
 		A731669C202BECC800C57D66 /* Top_Games.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A731669A202BECC800C57D66 /* Top_Games.xcdatamodeld */; };
@@ -147,6 +151,13 @@
 		A725AD84203504DD009C84AD /* FavoriteGameViewMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteGameViewMock.swift; sourceTree = "<group>"; };
 		A725AD8620350A05009C84AD /* GameDetailPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailPresenterTests.swift; sourceTree = "<group>"; };
 		A725AD8820350A31009C84AD /* GameDetailViewMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailViewMock.swift; sourceTree = "<group>"; };
+		A725AD8C20351897009C84AD /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Main.strings"; sourceTree = "<group>"; };
+		A725AD8D20351898009C84AD /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		A725AD8E20351898009C84AD /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/MainInterface.strings"; sourceTree = "<group>"; };
+		A725AD9220351950009C84AD /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A725AD9720351952009C84AD /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A725AD9C20351953009C84AD /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A725ADA120351954009C84AD /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		A7316690202BECC800C57D66 /* Top Games.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Top Games.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7316693202BECC800C57D66 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A7316698202BECC800C57D66 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -280,6 +291,8 @@
 		A725AD502034695D009C84AD /* Top Games Widget */ = {
 			isa = PBXGroup;
 			children = (
+				A725ADA220351954009C84AD /* Localizable.strings */,
+				A725AD9D20351953009C84AD /* InfoPlist.strings */,
 				A725AD512034695D009C84AD /* TodayViewController.swift */,
 				A725AD5E203469FB009C84AD /* TopGamesWidgetPresenter.swift */,
 				A725AD532034695D009C84AD /* MainInterface.storyboard */,
@@ -336,6 +349,15 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		A725ADA320351960009C84AD /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A725AD9820351952009C84AD /* InfoPlist.strings */,
+				A725AD9320351950009C84AD /* Localizable.strings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		A7316687202BECC800C57D66 = {
 			isa = PBXGroup;
 			children = (
@@ -363,9 +385,8 @@
 		A7316692202BECC800C57D66 /* Top Games */ = {
 			isa = PBXGroup;
 			children = (
-				A725AD4320320E60009C84AD /* Custom Transitions */,
-				A725AD4420320E6C009C84AD /* Extensions */,
 				A7316693202BECC800C57D66 /* AppDelegate.swift */,
+				A725ADA320351960009C84AD /* Resources */,
 				A7316697202BECC800C57D66 /* Main.storyboard */,
 				A725AD2C2030B567009C84AD /* View */,
 				A725AD2B2030B55F009C84AD /* Presenter */,
@@ -375,6 +396,8 @@
 				A73166C8202BEE3D00C57D66 /* Custom Cells */,
 				A7CEB8E9202FAC0A00707CCB /* CustomViews */,
 				A725AD362030F5AA009C84AD /* DataStore */,
+				A725AD4320320E60009C84AD /* Custom Transitions */,
+				A725AD4420320E6C009C84AD /* Extensions */,
 				A731669D202BECC800C57D66 /* Assets.xcassets */,
 				A731669F202BECC800C57D66 /* LaunchScreen.storyboard */,
 				A73166A2202BECC800C57D66 /* Info.plist */,
@@ -599,7 +622,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A725ADA020351954009C84AD /* Localizable.strings in Resources */,
 				A725AD552034695D009C84AD /* MainInterface.storyboard in Resources */,
+				A725AD9B20351953009C84AD /* InfoPlist.strings in Resources */,
 				A725AD6F20347757009C84AD /* Assets.xcassets in Resources */,
 				A725AD6A20346B65009C84AD /* GameTableViewCell.xib in Resources */,
 			);
@@ -610,6 +635,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A73166C7202BEE3800C57D66 /* GameCollectionViewCell.xib in Resources */,
+				A725AD9620351952009C84AD /* InfoPlist.strings in Resources */,
+				A725AD9120351950009C84AD /* Localizable.strings in Resources */,
 				A725AD4820334929009C84AD /* EmptyStateView.xib in Resources */,
 				A73166A1202BECC800C57D66 /* LaunchScreen.storyboard in Resources */,
 				A731669E202BECC800C57D66 /* Assets.xcassets in Resources */,
@@ -916,14 +943,48 @@
 			isa = PBXVariantGroup;
 			children = (
 				A725AD542034695D009C84AD /* Base */,
+				A725AD8E20351898009C84AD /* pt-BR */,
 			);
 			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+		A725AD9320351950009C84AD /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A725AD9220351950009C84AD /* pt-BR */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		A725AD9820351952009C84AD /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A725AD9720351952009C84AD /* pt-BR */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		A725AD9D20351953009C84AD /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A725AD9C20351953009C84AD /* pt-BR */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		A725ADA220351954009C84AD /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A725ADA120351954009C84AD /* pt-BR */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 		A7316697202BECC800C57D66 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				A7316698202BECC800C57D66 /* Base */,
+				A725AD8C20351897009C84AD /* pt-BR */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -932,6 +993,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A73166A0202BECC800C57D66 /* Base */,
+				A725AD8D20351898009C84AD /* pt-BR */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -975,6 +1037,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1032,6 +1095,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
