@@ -20,3 +20,15 @@ target 'Top Games' do
   end
 
 end
+
+target 'Top Games Widget' do
+    # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+    use_frameworks!
+    
+    # Pods for Top Games
+    pod 'Reusable'
+    pod 'URITemplate'
+    
+end
+
+

@@ -26,7 +26,7 @@ class GamesCollectionViewFlowLayout: UICollectionViewFlowLayout {
     }
     
     private func setupCollectionViewCellSpacing() {
-        let width = collectionView!.contentSize.width - collectionView!.safeAreaInsets.right - collectionView!.safeAreaInsets.left
+        let width = UIScreen.main.bounds.width - collectionView!.safeAreaInsets.right - collectionView!.safeAreaInsets.left
         let spacing = spaceBetweenCells(minimumSpace: 16.0, cellWidth: itemSize.width, collectionViewWidth: width)
         minimumLineSpacing = spacing
         minimumInteritemSpacing = spacing

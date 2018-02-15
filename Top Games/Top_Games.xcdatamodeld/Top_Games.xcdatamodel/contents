@@ -3,11 +3,10 @@
     <entity name="FavoriteGame" representedClassName="FavoriteGame" syncable="YES" codeGenerationType="class">
         <attribute name="boxURI" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="logoURI" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="viewers" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <elements>
-        <element name="FavoriteGame" positionX="-63" positionY="-18" width="128" height="120"/>
+        <element name="FavoriteGame" positionX="-63" positionY="-18" width="128" height="105"/>
     </elements>
 </model>

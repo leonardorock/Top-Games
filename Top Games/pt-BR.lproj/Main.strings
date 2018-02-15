@@ -1,0 +1,21 @@
+/* Class = "UILabel"; text = "1. Game Title"; ObjectID = "KTK-xZ-qp7"; */
+"KTK-xZ-qp7.text" = "Título do jogo";
+
+/* Class = "UINavigationItem"; title = "Favorites"; ObjectID = "Tpf-YY-dXD"; */
+"Tpf-YY-dXD.title" = "Favoritos";
+
+/* Class = "UILabel"; text = "1.000 viewers"; ObjectID = "Ui3-Ia-chX"; */
+"Ui3-Ia-chX.text" = "1000 espectadores";
+
+/* Class = "UINavigationItem"; title = "Top Games"; ObjectID = "VC8-KM-4yt"; */
+"VC8-KM-4yt.title" = "Top Games";
+
+/* Class = "UITabBarItem"; title = "Favorites"; ObjectID = "cOe-Fh-JHh"; */
+"cOe-Fh-JHh.title" = "Favoritos";
+
+/* Class = "UITabBarItem"; title = "Top Games"; ObjectID = "kCO-pE-FYD"; */
+"kCO-pE-FYD.title" = "Top Games";
+
+/* Class = "UINavigationItem"; title = "Game"; ObjectID = "zLg-o0-zId"; */
+"zLg-o0-zId.title" = "Jogo";
+

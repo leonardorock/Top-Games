@@ -7,6 +7,7 @@
 //
 
 import URITemplate
+import MobileCoreServices
 
 struct GameDataView {
     
@@ -26,13 +27,22 @@ struct GameDataView {
         return URITemplate(template: boxURI)
     }
     
-    var logoURITemplate: URITemplate? {
-        guard let logoURI = model.logoURI else { return nil }
-        return URITemplate(template: logoURI)
-    }
-    
     var favorite: Bool {
         return model.favorite
+    }
+    
+    var itemProvider: NSItemProvider {
+        let itemProvider = NSItemProvider()
+        itemProvider.registerDataRepresentation(forTypeIdentifier: kUTTypePlainText as String, visibility: .all) { (completion) -> Progress? in
+            do {
+                let data = try JSONEncoder().encode(self.model)
+                completion(data, nil)
+            } catch {
+                completion(nil, error)
+            }
+            return nil
+        }
+        return itemProvider
     }
     
 }

@@ -12,6 +12,10 @@ class FavoriteGamesDataStore {
     
     let context: NSManagedObjectContext
     
+    init() {
+        self.context = CoreDataStack.shared.persistentContainer.viewContext
+    }
+    
     init(context: NSManagedObjectContext) {
         self.context = context
     }
@@ -45,7 +49,6 @@ class FavoriteGamesDataStore {
         favoriteGame.name = game.name
         favoriteGame.viewers = Int32(game.viewers ?? 0)
         favoriteGame.boxURI = game.boxURI
-        favoriteGame.logoURI = game.logoURI
         do {
             try context.save()
             NotificationCenter.default.post(name: .favoriteGameAdded, object: game)
@@ -64,6 +67,24 @@ class FavoriteGamesDataStore {
             results.forEach { context.delete($0) }
             try context.save()
             NotificationCenter.default.post(name: .favoriteGameRemoved, object: game)
+            success()
+        } catch {
+            failure(error)
+        }
+        completion()
+    }
+    
+    func save(games: [Game], success: () -> Void, failure: (Error) -> Void, completion: () -> Void) {
+        games.forEach { game in
+            let favoriteGame = FavoriteGame(context: context)
+            favoriteGame.id = Int32(game.id ?? 0)
+            favoriteGame.name = game.name
+            favoriteGame.viewers = Int32(game.viewers ?? 0)
+            favoriteGame.boxURI = game.boxURI
+        }
+        do {
+            try context.save()
+            NotificationCenter.default.post(name: .favoriteGamesAdded, object: games)
             success()
         } catch {
             failure(error)

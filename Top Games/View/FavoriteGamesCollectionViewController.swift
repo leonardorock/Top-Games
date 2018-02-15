@@ -8,9 +8,11 @@
 
 import UIKit
 
-class FavoriteGamesCollectionViewController: UICollectionViewController, GameCollectionViewCellDelegate, FavoriteGameViewDelegate {
+class FavoriteGamesCollectionViewController: UICollectionViewController, GameCollectionViewCellDelegate, UIViewControllerTransitioningDelegate, UICollectionViewDropDelegate, ContextualImageTransitionDelegate, FavoriteGameViewDelegate {
     
     private var presenter: FavoriteGamePresenterDelegate!
+    private var animationController = ContextualImageTransitionAnimationController()
+    private var indexPathForSelectedItem: IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +34,8 @@ class FavoriteGamesCollectionViewController: UICollectionViewController, GameCol
     }
     
     private func setupCollectionView() {
+        collectionView?.dropDelegate = self
+        collectionView?.dragInteractionEnabled = true
         collectionView?.register(cellType: GameCollectionViewCell.self)
         collectionView?.collectionViewLayout = GamesCollectionViewFlowLayout()
     }
@@ -57,6 +61,16 @@ class FavoriteGamesCollectionViewController: UICollectionViewController, GameCol
     }
     
     func setEmpty(_ empty: Bool) {
+        if empty {
+            let emptyStateView = EmptyStateView.loadFromNib()
+            emptyStateView.imageView?.image = #imageLiteral(resourceName: "heart-outline-big")
+            emptyStateView.titleLabel?.text = NSLocalizedString("No favorites", comment: "No favorites empty state title")
+            emptyStateView.messageLabel?.text = NSLocalizedString("You haven’t added any game to your favorites", comment: "No favorites empty state message")
+            collectionView?.backgroundView = emptyStateView
+            
+        } else {
+            collectionView?.backgroundView = nil
+        }
         
     }
     
@@ -72,11 +86,20 @@ class FavoriteGamesCollectionViewController: UICollectionViewController, GameCol
     }
     
     func removeItem(at index: Int) {
-        collectionView?.deleteItems(at: [IndexPath(row: index, section: 0)])
+        let indexPath = IndexPath(row: index, section: 0)
+        if indexPath == indexPathForSelectedItem {
+            indexPathForSelectedItem = nil
+        }
+        collectionView?.deleteItems(at: [indexPath])
     }
     
     func insertItem(at index: Int) {
         collectionView?.insertItems(at: [IndexPath(row: index, section: 0)])
+    }
+    
+    func insertItems(in range: CountableRange<Int>) {
+        let indexPaths = range.map { IndexPath(row: $0, section: 0) }
+        collectionView?.insertItems(at: indexPaths)
     }
     
     func showGameDetailFor(game: GameDataView) {
@@ -99,6 +122,7 @@ class FavoriteGamesCollectionViewController: UICollectionViewController, GameCol
     // MARK: - UICollectionViewDelegate
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        indexPathForSelectedItem = indexPath
         presenter.showGameDetailForGame(at: indexPath.row)
     }
 
@@ -115,7 +139,84 @@ class FavoriteGamesCollectionViewController: UICollectionViewController, GameCol
         if segue.identifier == "showGameDetail", let game = sender as? GameDataView {
             let destination = segue.destination as? GameDetailViewController
             destination?.game = game
+            destination?.transitioningDelegate = self
         }
+    }
+    
+    // MARK: - UIViewControllerTransitioningDelegate
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        let gameDetailViewController = presented as? ContextualImageTransitionDelegate
+        animationController.setupTransition(from: self, to: gameDetailViewController)
+        return animationController
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        let gameDetailViewController = dismissed as? ContextualImageTransitionDelegate
+        animationController.setupTransition(from: gameDetailViewController, to: self)
+        return animationController
+    }
+    
+    // MARK: - Contextual Image Transition Protocol
+    
+    var selectedImageView: UIImageView? {
+        guard let indexPath = indexPathForSelectedItem, let collectionView = collectionView, let cell = collectionView.cellForItem(at: indexPath) as? GameCollectionViewCell else {
+            return nil
+        }
+        if !collectionView.indexPathsForVisibleItems.contains(indexPath) {
+            collectionView.scrollToItem(at: indexPath, at: .top, animated: false)
+        }
+        return cell.boxArtworkImageView
+    }
+    
+    var imageViewFrameForContextualImageTransition: CGRect? {
+        guard let frame = selectedImageView?.frame else { return CGRect(origin: view.center, size: .zero) }
+        return selectedImageView?.convert(frame, to: view)
+    }
+    
+    var imageForContextualImageTransition: UIImage? {
+        return selectedImageView?.image
+    }
+    
+    func transitionSetup() {
+        selectedImageView?.alpha = 0.0
+    }
+    
+    func transitionCleanUp() {
+        selectedImageView?.alpha = 1.0
+    }
+    
+    // MARK: - UICollectionViewDropDelegate
+    
+    func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
+        if session.localDragSession != nil {
+            return UICollectionViewDropProposal(operation: .copy, intent: .insertIntoDestinationIndexPath)
+        } else {
+            return UICollectionViewDropProposal(operation: .forbidden)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
+        
+        let destinationIndexPath: IndexPath
+        
+        if let indexPath = coordinator.destinationIndexPath {
+            destinationIndexPath = indexPath
+        } else {
+            let section = collectionView.numberOfSections - 1
+            let row = collectionView.numberOfItems(inSection: section)
+            destinationIndexPath = IndexPath(row: row, section: section)
+        }
+        
+        switch coordinator.proposal.operation {
+        case .copy:
+            let games = coordinator.items.flatMap { $0.dragItem.localObject as? GameDataView }
+            presenter.insert(games: games, at: destinationIndexPath.row)
+            break
+        default:
+            break
+        }
+        
     }
     
 }

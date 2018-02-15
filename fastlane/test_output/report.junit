@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites name='Top GamesTests.xctest' tests='15' failures='0'>
+  <testsuite name='Top_GamesTests.FavoriteGamePresenterTest' tests='5' failures='0'>
+    <testcase classname='Top_GamesTests.FavoriteGamePresenterTest' name='testFavoriteLoad' time='0.003'/>
+    <testcase classname='Top_GamesTests.FavoriteGamePresenterTest' name='testFavoriteLoadFailed' time='0.001'/>
+    <testcase classname='Top_GamesTests.FavoriteGamePresenterTest' name='testRemovingGameFromFavoriteFailure' time='0.001'/>
+    <testcase classname='Top_GamesTests.FavoriteGamePresenterTest' name='testRemovingGameFromFavoriteSuccess' time='0.001'/>
+    <testcase classname='Top_GamesTests.FavoriteGamePresenterTest' name='testShowingSelectedGame' time='0.001'/>
+  </testsuite>
+  <testsuite name='Top_GamesTests.GameDetailPresenterTests' tests='3' failures='0'>
+    <testcase classname='Top_GamesTests.GameDetailPresenterTests' name='testChangeGameFavoriteStateFailure' time='0.001'/>
+    <testcase classname='Top_GamesTests.GameDetailPresenterTests' name='testChangeGameFavoriteStateSuccess' time='0.001'/>
+    <testcase classname='Top_GamesTests.GameDetailPresenterTests' name='testGameSetup' time='0.001'/>
+  </testsuite>
+  <testsuite name='Top_GamesTests.TopGamesPresenterTest' tests='7' failures='0'>
+    <testcase classname='Top_GamesTests.TopGamesPresenterTest' name='testAddingItemToFavorite' time='0.002'/>
+    <testcase classname='Top_GamesTests.TopGamesPresenterTest' name='testFailingChangingItemToFavoriteState' time='0.001'/>
+    <testcase classname='Top_GamesTests.TopGamesPresenterTest' name='testInitialGamesLoad' time='0.001'/>
+    <testcase classname='Top_GamesTests.TopGamesPresenterTest' name='testInitialGamesLoadFailed' time='0.001'/>
+    <testcase classname='Top_GamesTests.TopGamesPresenterTest' name='testInitialGamesLoadWithoutResult' time='0.001'/>
+    <testcase classname='Top_GamesTests.TopGamesPresenterTest' name='testRemovingItemToFavorite' time='0.001'/>
+    <testcase classname='Top_GamesTests.TopGamesPresenterTest' name='testShowingSelectedGame' time='0.001'/>
+  </testsuite>
+</testsuites>

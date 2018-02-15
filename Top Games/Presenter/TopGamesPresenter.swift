@@ -8,14 +8,21 @@
 
 import Foundation
 
+enum EmptyReason {
+    case noResults,
+    searchResult(query: String?)
+}
+
 protocol TopGamesViewDelegate: class {
     
     func insertItems(in range: CountableRange<Int>)
     func setLoading(_ loading: Bool)
+    func setEmpty(_ empty: Bool, reason: EmptyReason)
     func present(error: Error)
     func reloadItems()
     func reloadItem(at index: Int)
     func showGameDetailFor(game: GameDataView)
+    func performAddedToFavoritesAnimationForGame(at index: Int)
     
 }
 
@@ -41,9 +48,21 @@ class TopGamesPresenter: TopGamesPresenterDelegate {
     
     weak var delegate: TopGamesViewDelegate?
     
-    private var games: [Game] = []
+    private var games: [Game] = [] {
+        didSet {
+            self.delegate?.setEmpty(games.isEmpty, reason: .noResults)
+        }
+    }
     private var favoriteGamesIDs: Set<Int> = []
-    private var filteredGames: [Game]? = nil
+    private var filteredGames: [Game]? = nil {
+        didSet {
+            if let filteredGames = filteredGames {
+                self.delegate?.setEmpty(filteredGames.isEmpty, reason: .searchResult(query: searchString))
+            } else {
+                self.delegate?.setEmpty(games.isEmpty, reason: .noResults)
+            }
+        }
+    }
     private var isLoading: Bool = false {
         didSet {
             self.delegate?.setLoading(isLoading)
@@ -55,6 +74,7 @@ class TopGamesPresenter: TopGamesPresenterDelegate {
     private var shouldFetchItems: Bool {
         return !(isLoading || isFiltered)
     }
+    private var searchString: String?
     
     var numberOfItems: Int {
         return filteredGames?.count ?? games.count
@@ -101,6 +121,7 @@ class TopGamesPresenter: TopGamesPresenterDelegate {
     }
     
     func filterGames(searchString: String?) {
+        self.searchString = searchString
         if let searchString = searchString, !searchString.isEmpty {
             filteredGames = games.filter { game in
                 guard let name = game.name else { return false }
@@ -129,6 +150,7 @@ class TopGamesPresenter: TopGamesPresenterDelegate {
                 self?.delegate?.present(error: error)
             }, completion: { [weak self] in
                 self?.delegate?.reloadItem(at: index)
+                self?.delegate?.performAddedToFavoritesAnimationForGame(at: index)
             })
         }
     }
@@ -141,7 +163,7 @@ class TopGamesPresenter: TopGamesPresenterDelegate {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(favoriteGameAdded(notification:)), name: .favoriteGameAdded, object: nil)
         notificationCenter.addObserver(self, selector: #selector(favoriteGameRemoved(notification:)), name: .favoriteGameRemoved, object: nil)
-        
+        notificationCenter.addObserver(self, selector: #selector(favoriteGamesAdded(notification:)), name: .favoriteGamesAdded, object: nil)
     }
     
     @objc private func favoriteGameAdded(notification: Notification) {
@@ -152,6 +174,11 @@ class TopGamesPresenter: TopGamesPresenterDelegate {
     @objc private func favoriteGameRemoved(notification: Notification) {
         let game = notification.object as? Game
         delete(favoriteGameID: game?.id)
+    }
+    
+    @objc private func favoriteGamesAdded(notification: Notification) {
+        let games = notification.object as? [Game]
+        games?.forEach { add(favoriteGameID: $0.id) }
     }
     
     private func add(favoriteGameID: Int?) {
