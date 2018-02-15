@@ -17,6 +17,10 @@ struct Game: Codable {
     let boxURI: String?
     var favorite: Bool
     
+}
+
+extension Game {
+    
     init(result: Result) {
         id = result.game?.id
         name = result.game?.name
@@ -24,4 +28,5 @@ struct Game: Codable {
         boxURI = result.game?.box?.template
         favorite = false
     }
+    
 }

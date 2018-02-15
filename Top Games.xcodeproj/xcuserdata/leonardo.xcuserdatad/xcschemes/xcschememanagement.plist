@@ -14,6 +14,34 @@
 			<key>orderHint</key>
 			<integer>6</integer>
 		</dict>
+		<key>Top GamesTests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>8</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>A725AD4C2034695D009C84AD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A731668F202BECC800C57D66</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A73166A6202BECC900C57D66</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A73166B1202BECC900C57D66</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 	</dict>
 </dict>
 </plist>

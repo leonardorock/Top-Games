@@ -12,6 +12,10 @@ class FavoriteGamesDataStore {
     
     let context: NSManagedObjectContext
     
+    init() {
+        self.context = CoreDataStack.shared.persistentContainer.viewContext
+    }
+    
     init(context: NSManagedObjectContext) {
         self.context = context
     }
