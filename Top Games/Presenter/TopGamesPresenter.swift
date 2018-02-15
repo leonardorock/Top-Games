@@ -33,8 +33,6 @@ protocol TopGamesPresenterDelegate {
     var numberOfItems: Int { get }
     
     func viewDidLoad()
-    func viewWillAppear()
-    func viewWillDisappear()
     func refreshControlValueChanged()
     func prefetchNextItems()
     func game(at index: Int) -> GameDataView
@@ -95,14 +93,11 @@ class TopGamesPresenter: TopGamesPresenterDelegate {
         }, failure: { [weak self] (error) in
             self?.delegate?.present(error: error)
         }) {}
-    }
-    
-    func viewWillAppear() {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
-    func viewWillDisappear() {
         registerForFavoriteGameUpdated()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     func refreshControlValueChanged() {

@@ -53,6 +53,7 @@
 		A725AD9620351952009C84AD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A725AD9820351952009C84AD /* InfoPlist.strings */; };
 		A725AD9B20351953009C84AD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A725AD9D20351953009C84AD /* InfoPlist.strings */; };
 		A725ADA020351954009C84AD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A725ADA220351954009C84AD /* Localizable.strings */; };
+		A725ADA52035350C009C84AD /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A725ADA42035350C009C84AD /* SearchController.swift */; };
 		A7316694202BECC800C57D66 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7316693202BECC800C57D66 /* AppDelegate.swift */; };
 		A7316699202BECC800C57D66 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7316697202BECC800C57D66 /* Main.storyboard */; };
 		A731669C202BECC800C57D66 /* Top_Games.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A731669A202BECC800C57D66 /* Top_Games.xcdatamodeld */; };
@@ -158,6 +159,7 @@
 		A725AD9720351952009C84AD /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		A725AD9C20351953009C84AD /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		A725ADA120351954009C84AD /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A725ADA42035350C009C84AD /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 		A7316690202BECC800C57D66 /* Top Games.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Top Games.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7316693202BECC800C57D66 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A7316698202BECC800C57D66 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -458,6 +460,7 @@
 		A7CEB8E9202FAC0A00707CCB /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				A725ADA42035350C009C84AD /* SearchController.swift */,
 				A725AD45203347E9009C84AD /* EmptyStateView.swift */,
 				A725AD4720334929009C84AD /* EmptyStateView.xib */,
 				A7CEB8E7202FAC0500707CCB /* RemoteImageView.swift */,
@@ -886,6 +889,7 @@
 				A778C4B2202FB7C400198B5D /* Service.swift in Sources */,
 				A73166C6202BEE3800C57D66 /* GameCollectionViewCell.swift in Sources */,
 				A725AD4220320E5C009C84AD /* ContextualImageTransitionAnimationController.swift in Sources */,
+				A725ADA52035350C009C84AD /* SearchController.swift in Sources */,
 				A725AD3C2031DC37009C84AD /* GameDetailViewController.swift in Sources */,
 				A725AD3E2031DDA5009C84AD /* GameDetailPresenter.swift in Sources */,
 				A725AD2A2030B559009C84AD /* TopGamesPresenter.swift in Sources */,
